@@ -117,26 +117,30 @@ const Home = () => {
           </div>
           <Slider {...settings} className="relative">
             <div className="p-4">
-              <Link href="/promo/1">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Promo 1</h3>
-                  <p>Details about the promo offer.</p>
+              <Link href="/promo/discount-new-user">
+                <div className="bg-gradient-to-r from-green-500 to-green-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+                  <h3 className="text-xl font-bold mb-4">
+                    Discount for New Users
+                  </h3>
+                  <p>Get Rp20,000 cashback on your first consultation.</p>
                 </div>
               </Link>
             </div>
             <div className="p-4">
-              <Link href="/promo/2">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Promo 2</h3>
-                  <p>Details about the promo offer. </p>
+              <Link href="/promo/specialist-exclusion">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+                  <h3 className="text-xl font-bold mb-4">
+                    Specialist Exclusion
+                  </h3>
+                  <p>Valid for all specialists except Dermatologists.</p>
                 </div>
               </Link>
             </div>
             <div className="p-4">
-              <Link href="/promo/3">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Promo 3</h3>
-                  <p>Details about the promo offer.</p>
+              <Link href="/promo/referral-bonus">
+                <div className="bg-gradient-to-r from-red-500 to-red-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
+                  <h3 className="text-xl font-bold mb-4">Referral Bonus</h3>
+                  <p>Earn Rp50,000 for every successful referral.</p>
                 </div>
               </Link>
             </div>
@@ -155,28 +159,52 @@ const Home = () => {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-4">
-              <Link href="/articles/1">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Article 1</h3>
-                  <p>Introduction to mental health and well-being.</p>
+              <a
+                href="https://www.helpguide.org/articles/mental-health/building-better-mental-health.htm"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="bg-gradient-to-r from-gray-500 to-gray-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300 h-full">
+                  <h3 className="text-xl font-bold mb-4">
+                    Building Better Mental Health
+                  </h3>
+                  <p>
+                    Tips and strategies for improving mental health and
+                    well-being.
+                  </p>
                 </div>
-              </Link>
+              </a>
             </div>
             <div className="p-4">
-              <Link href="/articles/2">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Article 2</h3>
-                  <p>Tips for managing stress and anxiety.</p>
+              <a
+                href="https://www.apa.org/monitor/2023/01/trends-improving-youth-mental-health"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="bg-gradient-to-r from-gray-500 to-gray-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300 h-full">
+                  <h3 className="text-xl font-bold mb-4">
+                    Trends in Improving Youth Mental Health
+                  </h3>
+                  <p>
+                    Recent trends and insights on improving mental health for
+                    youth.
+                  </p>
                 </div>
-              </Link>
+              </a>
             </div>
             <div className="p-4">
-              <Link href="/articles/3">
-                <div className="bg-gradient-to-r from-purple-500 to-purple-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300">
-                  <h3 className="text-xl font-bold mb-4">Article 3</h3>
-                  <p>The importance of mental health in daily life.</p>
+              <a
+                href="https://www.siloamhospitals.com/en/informasi-siloam/artikel/apa-itu-mental-health"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <div className="bg-gradient-to-r from-gray-500 to-gray-700 text-white p-6 rounded-lg shadow-lg cursor-pointer hover:scale-105 transition-transform duration-300 h-full">
+                  <h3 className="text-xl font-bold mb-4">
+                    What is Mental Health?
+                  </h3>
+                  <p>Introduction to mental health and its importance.</p>
                 </div>
-              </Link>
+              </a>
             </div>
           </div>
         </div>
