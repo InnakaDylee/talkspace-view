@@ -38,6 +38,9 @@ const HeaderHome = ({ userName, profileImage }) => {
               Talkspace
             </div>
             <nav className="flex space-x-6">
+              <Link href="/" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Home
+              </Link>
               <Link href="/chat-doctor" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Chat Doctor
               </Link>
