@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { FaUserMd, FaBars } from "react-icons/fa";
+import { FaUserMd, FaBars, FaComments } from "react-icons/fa";
 
 const HeaderDoctor = ({
   doctorName,
@@ -33,11 +33,11 @@ const HeaderDoctor = ({
           rel="stylesheet"
         />
         <style>{`
-          body {
-            margin: 0;
-            padding: 0;
-          }
-        `}</style>
+            body {
+              margin: 0;
+              padding: 0;
+            }
+          `}</style>
       </Head>
       <header
         className={`w-full z-50 transition-all duration-300 ease-in-out ${
@@ -74,6 +74,18 @@ const HeaderDoctor = ({
           </div>
 
           <div className="flex items-center space-x-2">
+            {/* Chat Icon */}
+            <button
+              className={`p-2 rounded-full transition-colors duration-300 ${
+                scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
+              }`}
+              onClick={() => alert("Open chat")}
+              title="Open Chat"
+            >
+              <FaComments className="w-6 h-6" />
+            </button>
+
+            {/* Profile and Doctor Name */}
             <Link
               href="/doctor-profile"
               className="flex items-center space-x-2"
