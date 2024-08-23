@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "../../../doctor/component/Header";
-import Sidebar from "../../../doctor/component/Sidebar";
-import Footer from "../../../component/Footer";
+import Header from "../component/Header";
+import Sidebar from "../component/Sidebar";
+import Footer from "../../component/Footer";
 import { FaUser, FaPhone, FaCalendarAlt, FaSearch } from "react-icons/fa";
 
 const PatientRecords = () => {

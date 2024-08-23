@@ -1,8 +1,8 @@
 "use client";
 
-import Header from "../../../doctor/component/Header";
-import Sidebar from "../../../doctor/component/Sidebar";
-import Footer from "../../../component/Footer";
+import Header from "../component/Header";
+import Sidebar from "../component/Sidebar";
+import Footer from "../../component/Footer";
 
 import React, { useState } from "react";
 import {

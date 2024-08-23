@@ -2,9 +2,9 @@
 
 import React from "react";
 import { FaCheckCircle, FaTimesCircle, FaHourglassHalf } from "react-icons/fa";
-import Header from "../../../doctor/component/Header";
-import Footer from "../../../component/Footer";
-import Sidebar from "../../../doctor/component/Sidebar";
+import Header from "../component/Header";
+import Footer from "../../component/Footer";
+import Sidebar from "../component/Sidebar";
 
 const BookingSummary = () => {
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(false);

@@ -2,9 +2,9 @@
 
 import React, { useState } from "react";
 import Select from "react-select";
-import Header from "../../../doctor/component/Header";
-import Footer from "../../../component/Footer";
-import Sidebar from "../../../doctor/component/Sidebar";
+import Header from "../component/Header";
+import Footer from "../../component/Footer";
+import Sidebar from "../component/Sidebar";
 import { FaFileAlt, FaDownload } from "react-icons/fa";
 
 const CreateReportsPage = () => {

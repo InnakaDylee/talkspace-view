@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "../../doctor/component/Header";
-import Footer from "../../component/Footer";
-import Sidebar from "../../doctor/component/Sidebar";
+import Header from "@/doctor/component/Header";
+import Footer from "@/component/Footer";
+import Sidebar from "@/doctor/component/Sidebar";
 import Link from "next/link";
 import {
   FaUserMd,
