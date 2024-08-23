@@ -3,9 +3,14 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
+import { getCookie } from 'cookies-next';
 
 const Header = () => {
   const [scrolled, setScrolled] = useState(false);
+
+  const cookies = getCookie('token')
+
+  
 
   useEffect(() => {
     const handleScroll = () => {
@@ -38,10 +43,10 @@ const Header = () => {
             </Link>
           </div>
           <nav className="space-x-6">
-            <Link href="/" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <Link href="/home" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
               Home
             </Link>
-            <Link href="/features" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+            {/* <Link href="/features" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
               Features
             </Link>
             <Link href="/about" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
@@ -49,7 +54,7 @@ const Header = () => {
             </Link>
             <Link href="/contact" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
               Contact
-            </Link>
+            </Link> */}
             <Link href="/login" className={`px-4 py-2 rounded shadow-lg transition duration-300 ease-in-out ${scrolled ? 'bg-purple-700 text-white hover:bg-purple-500' : 'bg-white text-purple-700 hover:bg-gray-100'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
               Sign In
             </Link>

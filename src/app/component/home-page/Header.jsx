@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { deleteCookie } from 'cookies-next';
 
 const HeaderHome = ({ userName, profileImage }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -38,21 +39,21 @@ const HeaderHome = ({ userName, profileImage }) => {
               Talkspace
             </div>
             <nav className="flex space-x-6">
-              <Link href="/" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <Link href="/home" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Home
+              </Link>
+              <Link href="/chat" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Talk Bot
               </Link>
               <Link href="/chat-doctor" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Chat Doctor
-              </Link>
-              <Link href="/my-activity" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
-                My Activity
               </Link>
               <Link href="/subscription" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Subscription
               </Link>
             </nav>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 gap-2">
             <Link href="/profile" className="flex items-center space-x-2">
               <div className="relative">
                 <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
@@ -68,9 +69,21 @@ const HeaderHome = ({ userName, profileImage }) => {
                 </div>
               </div>
               <div className={`font-bold ${scrolled ? 'text-purple-700' : 'text-white'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Hi, Frahari Perdana Putra {userName}!
+                Hi, User !
               </div>
             </Link>
+            <div
+              className="group flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-300"
+              onClick={() => {
+                deleteCookie('token');
+                window.location.reload();  // Refresh halaman pada path yang sama
+              }}
+            >
+              <FaSignOutAlt size={25} className="text-slate-200 group-hover:text-white transition-colors duration-300" />
+              <span className="ml-2 group-hover:text-white">Logout</span>
+            </div>
+
+
           </div>
         </div>
       </header>

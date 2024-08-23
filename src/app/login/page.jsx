@@ -2,9 +2,18 @@
 
 import React, { useState, useEffect } from 'react';
 import RegisterModal from '../register/page';
+import login from '../api/auth/login';
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Login = () => {
+  const router = useRouter()
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const openModal = () => {
     setIsOpen(true);
@@ -14,6 +23,39 @@ const Login = () => {
     setIsOpen(false);
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      email: email,
+      password: password
+    };
+
+    try {
+      const res = await login(payload)
+      if(res.status){
+        setCookie("token", res.data.token)
+        router.push("/home")
+      }
+      else{
+        toast.error(res.message, {
+          position: "top-center",
+          autoClose: 4500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          className:" capitalize"
+          // transition: Zoom,
+          });
+        console.log(res.message)
+      }
+    } catch(error) {
+      console.error('An error occurred:', error);
+    }
+   }  
   useEffect(() => {
     // Ensure the modal sets the app element to the root element
     const Modal = require('react-modal');
@@ -39,7 +81,7 @@ const Login = () => {
             create a new account
           </button>
         </p>
-        <form className="mt-8 space-y-6" action="#" method="POST">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
               Email address
@@ -50,8 +92,12 @@ const Login = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
+                placeholder='example@test.com'
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                // className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-black focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm text-gray-900 bg-white"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
           </div>
@@ -66,8 +112,12 @@ const Login = () => {
                 name="password"
                 type="password"
                 autoComplete="current-password"
+                placeholder='password'
                 required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                // className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm"
+                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-purple-500 focus:border-purple-500 sm:text-sm text-gray-900 bg-white"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </div>
           </div>
@@ -84,6 +134,19 @@ const Login = () => {
       </div>
 
       <RegisterModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+      <ToastContainer
+        position="top-center"
+        autoClose={4500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        // transition: Zoom,
+        />
     </div>
   );
 };

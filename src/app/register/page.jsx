@@ -2,10 +2,19 @@
 
 import React, { useState } from "react";
 import Modal from "react-modal";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import register from "../api/auth/register";
+import { toast } from "react-toastify";
 
 const RegisterModal = ({ modalIsOpen, closeModal }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  let patternEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -14,6 +23,86 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!patternEmail.test(email)) {
+      toast.error('invalid email format', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        className: "capitalize"
+        });
+      return;
+    }
+
+    if(password.length <= 10 || confirmPassword.length <= 10) {
+      toast.error('minimum length for password is 10 characters', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        className: "capitalize"
+        });
+      return;
+    }
+
+    if(password !== confirmPassword) {
+      toast.error('password do not match', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        className: "capitalize"
+        });
+      return;
+    }
+    const payload = {
+      fullname: fullName,
+      email: email,
+      password: password,
+      confirm_password: confirmPassword
+    };
+
+    try {
+      const res = await register(payload)
+      if(res.status){
+        setCookie("token", res.data.token)
+        router.push("/home")
+        console.log(res.message)
+      }
+      else{
+        toast.error(res.message, {
+          position: "top-center",
+          autoClose: 4500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          className:" capitalize"
+          // transition: Zoom,
+          });
+        console.log(res.message)
+      }
+    } catch(error) {
+      console.error('An error occurred:', error);
+    }
+   }  
 
   return (
     <Modal
@@ -44,37 +133,24 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
           </svg>
         </button>
 
-        <h2 className="text-2xl font-bold mb-4 text-center">Register</h2>
-        <form className="space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+        <h2 className="text-2xl font-bold mb-4 text-center text-gray-700">Register</h2>
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          <div>
             <div>
               <label
-                htmlFor="firstName"
+                htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700"
               >
-                First Name
+                Full Name
               </label>
               <input
-                id="firstName"
-                name="firstName"
+                id="fullName"
+                name="fullName"
                 type="text"
+                placeholder="John Doe"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Last Name
-              </label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                required
-                className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={(e) => setFullName(e.target.value)}
               />
             </div>
           </div>
@@ -90,8 +166,10 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
               name="email"
               type="email"
               autoComplete="email"
+              placeholder="test@example.com"
               required
               className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -107,8 +185,10 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
                 name="password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
+                placeholder="********"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={(e) => setPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -116,33 +196,9 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
                 className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
               >
                 {showPassword ? (
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5h6M9 10h6m-6 5h6m-9-7h.01M15 5h.01M15 10h.01M9 15h.01m6-5h.01"
-                    />
-                  </svg>
+                  <FaRegEye />
                 ) : (
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 8.592A7.958 7.958 0 0112 8a7.958 7.958 0 01-5 1.592M12 3v1m0 16v1m-6.66-7.337A9.973 9.973 0 013 12a9.973 9.973 0 012.34-5.663M21 12a9.973 9.973 0 01-2.34 5.663M12 8.592A7.958 7.958 0 0117 12a7.958 7.958 0 01-5-1.408"
-                    />
-                  </svg>
+                  <FaRegEyeSlash />
                 )}
               </button>
             </div>
@@ -160,8 +216,10 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
                 name="confirmPassword"
                 type={showConfirmPassword ? "text" : "password"}
                 autoComplete="new-password"
+                placeholder="********"
                 required
                 className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <button
                 type="button"
@@ -169,70 +227,12 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
                 className="absolute inset-y-0 right-0 px-3 flex items-center text-gray-500"
               >
                 {showConfirmPassword ? (
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 5h6M9 10h6m-6 5h6m-9-7h.01M15 5h.01M15 10h.01M9 15h.01m6-5h.01"
-                    />
-                  </svg>
+                  <FaRegEye />
                 ) : (
-                  <svg
-                    className="h-5 w-5"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M17 8.592A7.958 7.958 0 0112 8a7.958 7.958 0 01-5 1.592M12 3v1m0 16v1m-6.66-7.337A9.973 9.973 0 013 12a9.973 9.973 0 012.34-5.663M21 12a9.973 9.973 0 01-2.34 5.663M12 8.592A7.958 7.958 0 0117 12a7.958 7.958 0 01-5-1.408"
-                    />
-                  </svg>
+                  <FaRegEyeSlash />
                 )}
               </button>
             </div>
-          </div>
-          <div>
-            <label
-              htmlFor="birthDate"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Birth Date
-            </label>
-            <input
-              id="birthDate"
-              name="birthDate"
-              type="date"
-              required
-              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="gender"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Gender
-            </label>
-            <select
-              id="gender"
-              name="gender"
-              required
-              className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 text-black focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
-            >
-              <option value="">Select Gender</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-              <option value="other">Other</option>
-            </select>
           </div>
           <div className="text-center">
             <button
