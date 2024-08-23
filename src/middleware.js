@@ -20,7 +20,7 @@ export function middleware(request) {
 
     // Define permitted routes for each role
     const userRoutes = ['/home', '/profile', '/talkbot', '/chat-doctor'];
-    const doctorRoutes = ['/doctor'];
+    const doctorRoutes = ['/doctor', '/doctor/profile'];
 
     if (userRole === 'user' && !userRoutes.includes(pathname)) {
       // Redirect user roles from routes they are not permitted to access
