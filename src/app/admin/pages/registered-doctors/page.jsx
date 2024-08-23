@@ -13,13 +13,13 @@ const DoctorsRegistered = () => {
 
   const [doctors, setDoctors] = useState([]);
 
-  // Sample data for demonstration
+ 
   useEffect(() => {
-    // Fetch doctor data from an API or a local source
-    // For now, we use sample data
+    // fecth disini om
+   // contoh
     setDoctors([
       {
-        profilePicture: '/images/default-profile.jpg', // Replace with actual image URLs
+        profilePicture: '/images/default-profile.jpg', 
         fullname: 'Dr. Jane Doe',
         email: 'jane.doe@example.com',
         specialization: 'Cardiologist',
@@ -31,7 +31,7 @@ const DoctorsRegistered = () => {
         gender: 'Female',
         registrationDate: '2024-08-22',
       },
-      // Add more sample doctors if needed
+      
     ]);
   }, []);
 

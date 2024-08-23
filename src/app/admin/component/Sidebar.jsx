@@ -40,7 +40,7 @@ const SidebarAdmin = ({ isOpen, onToggle }) => {
           <li className="flex items-center cursor-pointer hover:bg-[#003366] p-2 rounded">
             <Link href="/admin/doctors-registered" className="flex items-center w-full">
               <FaUserCheck className="mr-3 text-lg" />
-              Doctors Registered
+              Registered Doctors
             </Link>
           </li>
           <li className="flex items-center cursor-pointer hover:bg-[#003366] p-2 rounded">
