@@ -103,3 +103,4 @@ const DoctorsRegistered = () => {
 };
 
 export default DoctorsRegistered;
+
