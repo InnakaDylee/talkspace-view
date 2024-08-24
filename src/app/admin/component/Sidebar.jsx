@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { FaHome, FaUserCheck, FaCogs } from 'react-icons/fa';
+import { FaHome, FaUserCheck, FaCogs, FaUsers } from 'react-icons/fa';
 import Link from 'next/link';
 
 const SidebarAdmin = ({ isOpen, onToggle }) => {
@@ -47,6 +47,12 @@ const SidebarAdmin = ({ isOpen, onToggle }) => {
             <Link href="/admin/manage-doctors" className="flex items-center w-full">
               <FaCogs className="mr-3 text-lg" />
               Manage Doctors
+            </Link>
+          </li>
+          <li className="flex items-center cursor-pointer hover:bg-[#003366] p-2 rounded">
+            <Link href="/admin/manage-users" className="flex items-center w-full">
+              <FaUsers className="mr-3 text-lg" />
+              Manage Users
             </Link>
           </li>
         </ul>

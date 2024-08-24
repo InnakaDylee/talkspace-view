@@ -27,7 +27,6 @@ const ManageDoctors = () => {
       specialization: 'Cardiologist',
       status: 'Inactive',
     },
-   
   ]);
 
   // Filter doctors berdasarkan search term
@@ -50,8 +49,8 @@ const ManageDoctors = () => {
         {/* Header */}
         <Header onSidebarToggle={handleSidebarToggle} />
 
-        <main className="p-4 sm:p-8 flex-1 bg-gray-900">
-          <h1 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+        <main className="p-8 flex-1 bg-gray-900">
+          <h1 className="text-3xl font-bold mb-6 text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
             Manage Doctors
           </h1>
 
@@ -63,32 +62,38 @@ const ManageDoctors = () => {
               className="p-2 w-full sm:w-1/2 rounded-lg border border-gray-300 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ backgroundColor: 'white' }} // Menambahkan warna latar belakang putih
+              style={{ backgroundColor: 'white' }}
             />
           </div>
 
-          <div className="overflow-x-auto rounded-lg shadow-md">
-            <table className="min-w-full divide-y divide-gray-300 bg-white text-black">
-              <thead className="bg-gray-100">
-                <tr>
-                  <th className="py-2 px-4 text-left text-xs font-medium uppercase tracking-wider">Full Name</th>
-                  <th className="py-2 px-4 text-left text-xs font-medium uppercase tracking-wider">Email</th>
-                  <th className="py-2 px-4 text-left text-xs font-medium uppercase tracking-wider">Specialization</th>
-                  <th className="py-2 px-4 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                  <th className="py-2 px-4 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <table className="w-full table-auto">
+              <thead>
+                <tr className="bg-gray-200">
+                  <th className="p-4 text-left text-black">Full Name</th>
+                  <th className="p-4 text-left text-black">Email</th>
+                  <th className="p-4 text-left text-black">Specialization</th>
+                  <th className="p-4 text-left text-black">Status</th>
+                  <th className="p-4 text-left text-black">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody>
                 {filteredDoctors.map((doctor) => (
                   <tr
                     key={doctor.id}
-                    className="hover:bg-gray-100 transition-colors duration-200"
+                    className="border-b hover:bg-gray-100 transition-colors duration-200"
                   >
-                    <td className="py-2 px-4 text-sm font-medium">{doctor.fullname}</td>
-                    <td className="py-2 px-4 text-sm font-medium">{doctor.email}</td>
-                    <td className="py-2 px-4 text-sm font-medium">{doctor.specialization}</td>
-                    <td className="py-2 px-4 text-sm font-medium">{doctor.status}</td>
-                    <td className="py-2 px-4 text-sm font-medium">
+                    <td className="p-4 text-black">{doctor.fullname}</td>
+                    <td className="p-4 text-black">{doctor.email}</td>
+                    <td className="p-4 text-black">{doctor.specialization}</td>
+                    <td className="p-4 text-black">
+                      <span className={`px-2 py-1 rounded-full text-white ${
+                        doctor.status === 'Active' ? 'bg-green-500' : 'bg-red-500'
+                      }`}>
+                        {doctor.status}
+                      </span>
+                    </td>
+                    <td className="p-4">
                       <button className="text-blue-500 hover:text-blue-700">
                         Edit
                       </button>

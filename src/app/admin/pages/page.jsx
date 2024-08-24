@@ -304,7 +304,7 @@ const AdminDashboardBody = () => {
                           className="w-12 h-12 object-cover rounded-full"
                         />
                       ) : (
-                        "No Image"  
+                        "No Image"
                       )}
                     </td>
                     <td className="px-6 py-4 text-sm">{doctor.fullname}</td>
