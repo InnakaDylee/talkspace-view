@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
-import register from "../api/auth/register";
+import register from "@/api/user/auth/register";
 import { toast } from "react-toastify";
 
 const RegisterModal = ({ modalIsOpen, closeModal }) => {

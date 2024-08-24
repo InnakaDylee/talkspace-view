@@ -1,19 +1,19 @@
 "use client"
 
 import React, { useEffect, useState } from "react";
-import Footer from "@/component/Footer";
-import Header  from "@/component/home-page/Header"
+import Footer from "../component/Footer";
+import Header  from "../component/home-page/Header"
 
 import { FaStethoscope, FaRobot } from "react-icons/fa";
 import Slider from "react-slick";
 import Link from "next/link";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import talkbots from "@/api/chat/talkbot";
+import talkbots from "../api/user/chat/talkbot";
 import { getCookie } from "cookies-next";
 // import ChatComponent from "@/component/chat/chat";
 
-const Chat = () => {
+const Talkbot = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -167,4 +167,4 @@ const Chat = () => {
   );
 }
 
-export default Chat;
+export default Talkbot;

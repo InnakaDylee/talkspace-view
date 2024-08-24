@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import RegisterModal from '@/register/page';
-import login from '@/api/user/auth/login';
+// import RegisterModal from '@/register/page';
+import login from '@/api/doctor/auth/login';
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
@@ -11,13 +11,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const router = useRouter()
-  const [modalIsOpen, setIsOpen] = useState(false);
+  // const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  // const openModal = () => {
+  //   setIsOpen(true);
+  // };
 
   const closeModal = () => {
     setIsOpen(false);
@@ -35,7 +35,7 @@ const Login = () => {
       const res = await login(payload)
       if(res.status){
         setCookie("token", res.data.token)
-        router.push("/home")
+        router.push("/doctor")
       }
       else{
         toast.error(res.message, {
@@ -70,17 +70,17 @@ const Login = () => {
   return (
     <div className="min-h-screen flex flex-row items-center justify-center bg-gray-50">
       <div className="hidden lg:flex lg:flex-col lg:items-start lg:w-1/2 px-12">
-        <h1 className="text-5xl font-bold text-purple-600">Talkspace</h1>
+        <h1 className="text-5xl font-bold text-blue-600">Talkspace Doctor</h1>
         <p className="mt-4 text-lg text-gray-700">Your space for mental wellness.</p>
       </div>
       <div className="w-full max-w-md lg:w-1/2 px-6 py-12 lg:px-12 lg:py-24 bg-white shadow-md rounded-lg">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center">Sign in to your account</h2>
-        <p className="mt-2 text-center text-sm text-gray-600">
+        {/* <p className="mt-2 text-center text-sm text-gray-600">
           Or{' '}
           <button onClick={openModal} className="font-medium text-purple-600 hover:text-purple-500">
             create a new account
           </button>
-        </p>
+        </p> */}
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-700">
@@ -125,7 +125,7 @@ const Login = () => {
           <div>
             <button
               type="submit"
-              className="w-full bg-purple-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+              className="w-full bg-blue-600 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Sign in
             </button>
@@ -133,7 +133,7 @@ const Login = () => {
         </form>
       </div>
 
-      <RegisterModal modalIsOpen={modalIsOpen} closeModal={closeModal} />
+      {/* <RegisterModal modalIsOpen={modalIsOpen} closeModal={closeModal} /> */}
       <ToastContainer
         position="top-center"
         autoClose={4500}

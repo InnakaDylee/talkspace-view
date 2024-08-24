@@ -99,7 +99,7 @@ const Home = () => {
               </div>
               <p className="text-xl font-semibold">Chat with Doctor</p>
             </div>
-            <Link href={"/chat"}>
+            <Link href={"/talkbot"}>
               <div className="feature-item flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform duration-300">
                 <div className="icon-wrapper bg-white p-4 rounded-full mb-4">
                   <FaRobot size={50} className="text-gray-500" />
