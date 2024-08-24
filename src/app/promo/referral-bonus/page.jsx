@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import Header from "../../component/home-page/header";
-import Footer from "../../component/Footer";
+import Header from "@/component/home-page/header";
+import Footer from "@/component/Footer";
 
 const ReferralBonus = () => {
   const promoCode = "REFERRAL50";
