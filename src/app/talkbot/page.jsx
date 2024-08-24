@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Footer from "../component/Footer";
-import Header  from "../component/home-page/Header"
+import Header  from "../component/home-page/HeaderHome"
 
 import { FaStethoscope, FaRobot } from "react-icons/fa";
 import Slider from "react-slick";

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Header from "@/component/home-page/header";
+import HeaderHome from "@/component/home-page/HeaderHome";
 import Footer from "@/component/Footer";
 
 const DiscountNewUser = () => {
@@ -14,7 +14,7 @@ const DiscountNewUser = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderHome />
       <div className="py-20 px-10 bg-gradient-to-r from-green-500 to-green-700 text-white">
         <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
           <div className="p-8">

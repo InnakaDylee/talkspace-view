@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Header from "@/component/home-page/header";
+import HeaderHome from "@/component/home-page/HeaderHome";
 import Footer from "@/component/Footer";
 
 import { FaStethoscope, FaRobot } from "react-icons/fa";
@@ -67,7 +67,7 @@ const Home = () => {
 
   return (
     <div>
-      <Header />
+      <HeaderHome />
       <div className="body-content">
         {/* Section 1 */}
         <div className="flex flex-col justify-center items-center py-20 px-10 bg-gradient-to-r from-purple-500 to-purple-700 text-white">

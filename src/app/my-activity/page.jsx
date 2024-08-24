@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "../../app/component/home-page/Header";
+import Header from "../component/home-page/HeaderHome";
 import Footer from "../../app/component/Footer";
 import { FaCalendarAlt, FaCog, FaInfoCircle } from "react-icons/fa";
 import { Line } from "react-chartjs-2";

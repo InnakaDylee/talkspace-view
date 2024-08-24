@@ -1,5 +1,5 @@
 import Footer from '@/component/Footer';
-import Header from '@/component/home-page/Header';
+import HeaderHome from "@/component/home-page/HeaderHome";
 import Link from 'next/link';
 import React from 'react';
 import { FaStethoscope, FaRobot } from 'react-icons/fa';
@@ -7,7 +7,7 @@ import { FaStethoscope, FaRobot } from 'react-icons/fa';
 const Body = () => {
   return (
     <div className='flex flex-col h-screen'>
-      <Header />
+      <HeaderHome />
       <div className="flex-grow flex flex-col justify-center items-center py-20 px-10 bg-gradient-to-r from-purple-500 to-purple-700 text-white">
         {/* Title Section */}
         <div className="text-center mb-10">
