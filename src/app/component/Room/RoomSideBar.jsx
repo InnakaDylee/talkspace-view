@@ -65,6 +65,14 @@ function RoomSideBar() {
           )
         })}
       </div>
+      {
+        showAddRoomPanel && (
+          <div>
+            <AddRoomPanel hideAddRoomPanel={hideAddRoomPanel} id={selectedRoomId} />
+          </div>
+        )
+      }
+
     </div>
   )
 }

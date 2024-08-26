@@ -1,24 +1,17 @@
 "use client";
-import { useRoom } from "../../../contexts/RoomContext";
+import { useRoom } from "@context/RoomContext"
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { v4 as uuidv4 } from "uuid";
 import createRoom from "@/api/user/chat/createRoom";
 import { getCookie } from "cookies-next";
+import { toast } from "react-toastify";
 
 function AddRoomPanel({ hideAddRoomPanel, id }) {
-  const [title, setTitle] = useState("");
-  // const [id, setId] = useState("");
-  const { myRooms, setMyRooms } = useRoom();
-  const { rooms, setRooms } = useRoom();
-  const router = useRouter();
-  const doctorName = rooms.find((room) => room.id === id).name
-
-  console.log(doctorName)
-  // useEffect(() => {
-  //   setId(uuidv4());
-  // }, []);
+  const { rooms } = useRoom();  
+  const room = rooms.find((room) => room.id === id); 
+  const doctorName = room ? room.name : "Unknown";  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +21,21 @@ function AddRoomPanel({ hideAddRoomPanel, id }) {
         doctor_id: id
       }, getCookie('token')
       )
+      console.log(res)
       if(res.status){
         window.location.reload()
+      }else{
+        toast.error(res.message, {
+          position: "top-center",
+          autoClose: 4500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          className:" capitalize"
+          });
       }
     }
     catch (err) {
