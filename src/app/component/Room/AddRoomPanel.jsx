@@ -21,7 +21,6 @@ function AddRoomPanel({ hideAddRoomPanel, id }) {
         doctor_id: id
       }, getCookie('token')
       )
-      console.log(res)
       if(res.status){
         window.location.reload()
       }else{

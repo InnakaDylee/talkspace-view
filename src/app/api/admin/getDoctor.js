@@ -1,12 +1,12 @@
-export default async function updateProfile( data, id, auth ) {
+export default async function getDoctors( auth ) {
   try{
-    const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/users/profile/' + id , {
-      method: 'PUT',
+    const res = await fetch(process.env.NEXT_PUBLIC_HOST + '/doctors' , {
+      method: 'GET',
       headers: {
         'Accept': '*/*',
-        'Authorization': `Bearer ${auth}`
-      },
-      body: data
+        'Content-Type': 'application/json',
+        'Authorization': "Bearer " + auth
+      }
     }).then((res) => res.json()) 
 
     if(res) {

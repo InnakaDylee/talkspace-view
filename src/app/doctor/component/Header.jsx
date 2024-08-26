@@ -1,9 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import { FaUserMd, FaBars, FaComments } from "react-icons/fa";
+import updateStatus from "@/api/doctor/auth/updateStatus";
+import { useUser } from "@context/UserContext";
+import { getCookie } from "cookies-next";
 
 const HeaderDoctor = ({
   doctorName,
@@ -12,12 +15,21 @@ const HeaderDoctor = ({
   onSidebarToggle,
 }) => {
   const [scrolled, setScrolled] = useState(false);
-
   const [isEnabled, setIsEnabled] = useState(false);
+  const { id } = useUser();
 
   const handleToggle = () => {
     setIsEnabled(prev => !prev);
+    changeStatusDoctor();
   };
+
+  const changeStatusDoctor = async () => {
+    try {
+      const res = await updateStatus({status: isEnabled}, id, getCookie('token') )
+    } catch (error) {
+      
+    }
+  }
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,13 +79,14 @@ const HeaderDoctor = ({
           </button>
 
           <div className="flex items-center flex-grow">
-            <div
+            <Link
               className={`text-2xl font-bold mr-10 ${scrolled ? "text-blue-800" : "text-white"
                 }`}
               style={{ fontFamily: "Poppins, sans-serif" }}
+              href={'/doctor'}
             >
               Talkspace
-            </div>
+            </Link>
           </div>
 
           <div className="flex items-center space-x-2">
@@ -89,12 +102,12 @@ const HeaderDoctor = ({
                   />
                   <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
                   <div
-                    className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform ${isEnabled ? 'translate-x-full bg-blue-600' : 'translate-x-0'
+                    className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform ${isEnabled ? 'translate-x-full bg-green-600' : 'translate-x-0 bg-red-600'
                       }`}
                   ></div>
                 </div>
                 {/* {label &&  */}
-                <span className="ml-3 text-gray-700">Available</span>
+                <span className="ml-3 text-slate-300">{isEnabled ? "Available" : "Not Available"}</span>
               </label>
             </div>
             {/* Chat Icon */}

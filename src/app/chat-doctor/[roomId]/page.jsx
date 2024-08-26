@@ -47,7 +47,6 @@ function ChatPage() {
 
     conn.onmessage = (message) => {
       const parsedMessage = JSON.parse(message.data);
-      console.log(`Received message from doctor: ${parsedMessage.content}`);
 
       // Update state if the message is new
       if (!messageIds.has(parsedMessage.created_at)) {
@@ -70,11 +69,11 @@ function ChatPage() {
     };
 
     // Cleanup on unmount
-    return () => {
-      if (conn) {
-        conn.onmessage = null;
-      }
-    };
+    // return () => {
+    //   if (conn) {
+    //     conn.onmessage = null;
+    //   }
+    // };
   }, [conn, router]);
 
   return (

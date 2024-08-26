@@ -1,9 +1,13 @@
 
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./component/Header";
 import Sidebar from "./component/Sidebar";
+import getDoctors from "@/api/admin/getDoctor";
+import { getCookie } from "cookies-next";
+import registerDoctor from "@/api/admin/registerDoctor";
+
 
 const AdminDashboardBody = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -50,13 +54,14 @@ const AdminDashboardBody = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newDoctor = {
-      ...doctorData,
-      profilePicture,
-      password,
-      registrationDate: new Date().toLocaleDateString(),
-    };
-    setDoctors([...doctors, newDoctor]);
+    createDoctor();
+    // const newDoctor = {
+    //   ...doctorData,
+    //   profilePicture,
+    //   password,
+    //   registrationDate: new Date().toLocaleDateString(),
+    // };
+    // setDoctors([...doctors, newDoctor]);
 
     // Reset form
     setDoctorData({
@@ -74,6 +79,45 @@ const AdminDashboardBody = () => {
     setPassword("");
   };
 
+  const createDoctor = async () => {
+    const formData = new FormData();
+    formData.append('fullname', doctorData.fullname);
+    formData.append('email', doctorData.email);
+    formData.append('profile_picture', profilePicture); // Assumsi selectedFile adalah file yang dipilih
+    formData.append('specialization', doctorData.specialization);
+    formData.append('license_number', doctorData.licenseNumber);
+    formData.append('alumnus', doctorData.alumnus);
+    formData.append('years_of_experience', doctorData.yearsOfExperience);
+    formData.append('about', doctorData.about);
+    formData.append('location', doctorData.location);
+    formData.append('gender', doctorData.gender);
+    try {
+
+      const res = await registerDoctor(formData, getCookie('token'))
+      if (res.status) {
+        fetchDoctors();
+      }
+    } catch (error) {
+
+    }
+  }
+
+  const fetchDoctors = async () => {
+    try {
+      const res = await getDoctors(getCookie('token'))
+
+      if (res.status) {
+        setDoctors(res.data)
+      }
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    fetchDoctors();
+  }, [])
+
   return (
     <div className="flex h-screen bg-gray-900">
       {/* Sidebar */}
@@ -81,9 +125,8 @@ const AdminDashboardBody = () => {
 
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-          isSidebarOpen ? "ml-64" : "ml-0"
-        }`}
+        className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${isSidebarOpen ? "ml-64" : "ml-0"
+          }`}
       >
         {/* Header */}
         <Header onSidebarToggle={handleSidebarToggle} />
@@ -221,24 +264,9 @@ const AdminDashboardBody = () => {
                   style={{ backgroundColor: "white" }}
                 >
                   <option value="">Select Gender</option>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                  <option value="Other">Other</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
                 </select>
-              </div>
-              <div className="flex items-end">
-                <button
-                  type="button"
-                  onClick={handleGeneratePassword}
-                  className="bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
-                >
-                  Auto-generate Password
-                </button>
-                {password && (
-                  <p className="ml-4 text-gray-700">
-                    Generated Password: <strong>{password}</strong>
-                  </p>
-                )}
               </div>
             </div>
             <div className="mt-6">
@@ -297,9 +325,9 @@ const AdminDashboardBody = () => {
                 {doctors.map((doctor, index) => (
                   <tr key={index} className="border-t border-gray-200">
                     <td className="px-6 py-4 text-sm">
-                      {doctor.profilePicture ? (
+                      {doctor.profile_picture ? (
                         <img
-                          src={doctor.profilePicture}
+                          src={doctor.profile_picture}
                           alt="Profile"
                           className="w-12 h-12 object-cover rounded-full"
                         />

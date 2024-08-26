@@ -14,9 +14,25 @@ function RoomCard({ room, users }) {
   const { myRooms, setMyRooms } = useRoom();
   const router = useRouter();
   const token = getCookie('token')
-  const { setConn } = useContext(WebsocketContext)
+  const { conn, setConn, } = useContext(WebsocketContext)
 
   const joinRoom = (roomId) => {
+    // if (conn && conn.readyState === WebSocket.OPEN) {
+    //   console.log('Connection is already open.');
+    //   conn.close();
+    //   // setConn(null)
+    //   return;
+    // }
+  
+    // if (conn && conn.readyState === WebSocket.CONNECTING) {
+    //   console.log('Connection is still in the process of connecting.');
+    //   conn.close()
+    //   // setConn(null)
+    //   return;
+    // }
+    if(conn){
+      conn.close()
+    }
     const ws = new WebSocket(
       `${process.env.NEXT_PUBLIC_WS}/consultations/joinRoom/${roomId}/${token}`
     )
@@ -25,6 +41,19 @@ function RoomCard({ room, users }) {
       router.push(`/doctor/chat/${roomId}`)
       return
     }
+    ws.onopen = () => {
+      console.log('Connection established.');
+      // setConn(ws);
+      // router.push(`/doctor/chat/${roomId}`);
+    };
+  
+    ws.onclose = () => {
+      console.log('Connection closed.');
+    };
+  
+    ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
   }
 
   return (

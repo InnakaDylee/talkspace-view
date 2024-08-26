@@ -39,7 +39,7 @@ const ProfilePage = () => {
 
   const fetchProfile = async () => {
     try {
-      if(token) {
+      if (token) {
         const decodedToken = jwtDecode(token);
         if (decodedToken) {
           const res = await getProfile(decodedToken.id, token);
@@ -55,19 +55,45 @@ const ProfilePage = () => {
     }
   };
 
-  const handleProfilePictureChange = (e) => {
+  // const handleProfilePictureChange = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const reader = new FileReader();
+  //     reader.onload = (e) => {
+  //       setProfile((prev) => ({
+  //         ...prev,
+  //         profile_picture: e.target.result,
+  //       }));
+  //     };
+  //     reader.readAsDataURL(file);
+  //   }
+  // };
+
+  const handleProfilePictureChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        setProfile((prev) => ({
-          ...prev,
-          profile_picture: e.target.result,
-        }));
-      };
-      reader.readAsDataURL(file);
+      // Membuat objek FormData
+      const formData = new FormData();
+      formData.append('profile_picture', file);
+      try {
+
+        const res = await updateProfile(formData, profile.id, token)
+        if (response.ok) {
+          const data = await response.json();
+          // Memperbarui state profil dengan URL gambar yang diunggah
+          setProfile((prev) => ({
+            ...prev,
+            profile_picture: data.profile_picture, // Sesuaikan dengan key yang dikembalikan dari server
+          }));
+        } else {
+          console.error('Failed to upload image', response.statusText);
+        }
+      } catch (error) {
+        console.error('Error uploading image', error);
+      }
     }
   };
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -78,8 +104,17 @@ const ProfilePage = () => {
   };
 
   const saveChanges = async () => {
+    const formData = new FormData();
+
+    formData.append("fullname", profile.fullname);
+    formData.append("email", profile.email);
+    formData.append("gender", profile.gender);
+    formData.append("birthdate", profile.birthdate);
+    formData.append("blood_type", profile.blood_type);
+    formData.append("height", profile.height);
+    formData.append("weight", profile.weight);
     try {
-      const res = await updateProfile(profile, token);
+      const res = await updateProfile(formData, profile.id, token);
       if (res.status) {
         setProfile(res.data);
         setIsModalOpen(false);
@@ -162,7 +197,7 @@ const ProfilePage = () => {
               </div>
             </div>
 
-            <div className="space-y-4 mb-8">
+            {/* <div className="space-y-4 mb-8">
               <h2 className="text-xl font-semibold text-black">Account Settings</h2>
               <div className="flex items-center">
                 <FaLock className="mr-4 text-purple-600" />
@@ -170,7 +205,7 @@ const ProfilePage = () => {
                   Change Password
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <div className="space-y-4 mb-8">
               <h2 className="text-xl font-semibold text-black">
@@ -200,134 +235,143 @@ const ProfilePage = () => {
               >
                 Logout
               </button>
-              <button className="text-red-500 hover:underline">
+              {/* <button className="text-red-500 hover:underline">
                 Delete Account
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
 
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg w-full max-w-md">
-            <h2 className="text-2xl font-semibold mb-4 text-black">
-              Edit Profile
-            </h2>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-gray-600">
-                  <FaUserCircle className="inline mr-2 text-purple-600" />
-                  Full Name
-                </label>
-                <input
-                  type="text"
-                  name="fullname"
-                  value={profile.fullname}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
-                />
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                // Klik di luar modal tidak akan menutup modal atau mempengaruhi elemen lain
+                e.stopPropagation();
+              }
+            }}
+            tabIndex="-1" // memastikan modal dalam fokus
+          >
+            <div className="bg-white p-6 rounded-lg w-full max-w-md">
+              <h2 className="text-2xl font-semibold mb-4 text-black">
+                Edit Profile
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-gray-600">
+                    <FaUserCircle className="inline mr-2 text-purple-600" />
+                    Full Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullname"
+                    value={profile.fullname}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                    autoFocus
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaEnvelope className="inline mr-2 text-purple-600" />
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={profile.email}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaVenusMars className="inline mr-2 text-purple-600" />
+                    Gender
+                  </label>
+                  <select
+                    name="gender"
+                    value={profile.gender}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  >
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaCalendarAlt className="inline mr-2 text-purple-600" />
+                    Birth Date
+                  </label>
+                  <input
+                    type="date"
+                    name="birthdate"
+                    value={profile.birthdate}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaTint className="inline mr-2 text-purple-600" />
+                    Blood Type
+                  </label>
+                  <select
+                    name="blood_type"
+                    value={profile.blood_type}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  >
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="AB">AB</option>
+                    <option value="O">O</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaRulerVertical className="inline mr-2 text-purple-600" />
+                    Height (cm)
+                  </label>
+                  <input
+                    type="number"
+                    name="height"
+                    value={profile.height}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-600">
+                    <FaWeight className="inline mr-2 text-purple-600" />
+                    Weight (kg)
+                  </label>
+                  <input
+                    type="number"
+                    name="weight"
+                    value={profile.weight}
+                    onChange={handleInputChange}
+                    className="w-full px-3 py-2 border rounded-md text-black"
+                  />
+                </div>
               </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaEnvelope className="inline mr-2 text-purple-600" />
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={profile.email}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaVenusMars className="inline mr-2 text-purple-600" />
-                  Gender
-                </label>
-                <select
-                  name="gender"
-                  value={profile.gender}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
+              <div className="mt-6 flex justify-end">
+                <button
+                  className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300"
+                  onClick={saveChanges}
                 >
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaCalendarAlt className="inline mr-2 text-purple-600" />
-                  Birth Date
-                </label>
-                <input
-                  type="date"
-                  name="birthdate"
-                  value={profile.birthdate}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaTint className="inline mr-2 text-purple-600" />
-                  Blood Type
-                </label>
-                <select
-                  name="blood_type"
-                  value={profile.blood_type}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
+                  Save
+                </button>
+                <button
+                  className="ml-3 bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
+                  onClick={() => setIsModalOpen(false)}
                 >
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="AB">AB</option>
-                  <option value="O">O</option>
-                </select>
+                  Cancel
+                </button>
               </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaRulerVertical className="inline mr-2 text-purple-600" />
-                  Height (cm)
-                </label>
-                <input
-                  type="number"
-                  name="height"
-                  value={profile.height}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
-                />
-              </div>
-              <div>
-                <label className="block text-gray-600">
-                  <FaWeight className="inline mr-2 text-purple-600" />
-                  Weight (kg)
-                </label>
-                <input
-                  type="number"
-                  name="weight"
-                  value={profile.weight}
-                  onChange={handleInputChange}
-                  className="w-full px-3 py-2 border rounded-md text-black"
-                />
-              </div>
-            </div>
-            <div className="mt-6 flex justify-end">
-              <button
-                className="bg-purple-600 text-white py-2 px-4 rounded hover:bg-purple-700 transition duration-300"
-                onClick={saveChanges}
-              >
-                Save
-              </button>
-              <button
-                className="ml-3 bg-gray-300 text-black py-2 px-4 rounded hover:bg-gray-400 transition duration-300"
-                onClick={() => setIsModalOpen(false)}
-              >
-                Cancel
-              </button>
             </div>
           </div>
-        </div>
         )}
       </div>
       <Footer />

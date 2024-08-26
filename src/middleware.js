@@ -8,6 +8,10 @@ export function middleware(request) {
   if (pathname === '/doctor/login') {
     return NextResponse.next();
   }
+
+  if (pathname === '/admin/login') {
+    return NextResponse.next();
+  }
   
   if (!authToken) {
     // Redirect to login if no token is present
@@ -27,14 +31,21 @@ export function middleware(request) {
       // Use regex to match dynamic routes
       // '/^\/doctor\/chat\/[a-zA-Z0-9-]+$/ '
     ];
+    const adminRoutes = ['/admin', '/admin/manage-users', '/admin/registered-doctors', '/admin/manage-doctors']
+
     if (userRole === 'user' && !userRoutes.includes(pathname)) {
       // Redirect user roles from routes they are not permitted to access
       return NextResponse.redirect(new URL('/home', request.url));
     }
 
-    if (userRole === 'doctor' && !doctorRoutes.some(route => new RegExp(route).test(pathname))) {
+    if (userRole === 'doctor' && !doctorRoutes.includes(pathname)) {
       // Redirect doctor roles from routes they are not permitted to access
       return NextResponse.redirect(new URL('/doctor', request.url));
+    }
+
+    if (userRole === 'admin' && !adminRoutes.includes(pathname)) {
+      // Redirect doctor roles from routes they are not permitted to access
+      return NextResponse.redirect(new URL('/admin', request.url));
     }
 
     // If the token is valid and the role matches, allow the request
@@ -49,5 +60,5 @@ export function middleware(request) {
 
 // Apply the middleware to the specified routes
 export const config = {
-  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor/login', '/doctor/chat', '/doctor/:path*'],
+  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor/login', '/doctor/chat', '/doctor/profile', '/admin/:path*'],
 };

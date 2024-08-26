@@ -24,13 +24,16 @@ const Body = () => {
           </button>
         </div>
         {/* Features Section */}
+
         <div className="features-section grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div className="feature-item group flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform duration-300">
-            <div className="icon-wrapper bg-white p-4 rounded-full mb-4">
-              <FaStethoscope size={50} className="text-gray-500 group-hover:text-purple-700 transition-colors duration-300" />
+          <Link href="/chat-doctor">
+            <div className="feature-item group flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform duration-300">
+              <div className="icon-wrapper bg-white p-4 rounded-full mb-4">
+                <FaStethoscope size={50} className="text-gray-500 group-hover:text-purple-700 transition-colors duration-300" />
+              </div>
+              <p className="text-xl font-semibold">Chat with Doctor</p>
             </div>
-            <p className="text-xl font-semibold">Chat with Doctor</p>
-          </div>
+          </Link>
 
           <Link href="/talkbot">
             <div className="feature-item group flex flex-col items-center text-center cursor-pointer hover:scale-105 transition-transform duration-300">

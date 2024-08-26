@@ -28,13 +28,13 @@ export default function UserProvider({ children }) {
     setPremium(premium)
     localStorage.setItem("fullname", fullname)
     localStorage.setItem("id", id)
-    localStorage.setItem("premium", JSON.stringify(premium))
+    localStorage.setItem("premium", premium)
   }
 
   useEffect(() => {
     const storedFullname = localStorage.getItem("fullname")
     const storedId = localStorage.getItem("id")
-    const storedPremium = JSON.parse(localStorage.getItem("premium"))
+    const storedPremium = localStorage.getItem("premium")
 
     if (storedFullname && storedId && storedPremium !== null) {
       setFullname(storedFullname)

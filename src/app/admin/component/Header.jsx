@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { FaBars, FaUserShield } from "react-icons/fa";
+import { FaBars, FaUserShield, FaSignOutAlt } from "react-icons/fa";
+import { deleteCookie } from "cookies-next";
 
 const HeaderAdmin = ({ adminName, isSidebarOpen, onSidebarToggle }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -68,7 +69,7 @@ const HeaderAdmin = ({ adminName, isSidebarOpen, onSidebarToggle }) => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 mr-3">
             {/* Admin Profile */}
             <div className="flex items-center space-x-2">
               <FaUserShield
@@ -86,6 +87,16 @@ const HeaderAdmin = ({ adminName, isSidebarOpen, onSidebarToggle }) => {
               </span>
             </div>
           </div>
+          <div
+              className="group flex items-center justify-center bg-blue-700 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-300"
+              onClick={() => {
+                deleteCookie('token');
+                window.location.reload();  // Refresh halaman pada path yang sama
+              }}
+            >
+              <FaSignOutAlt size={25} className="text-slate-200 group-hover:text-white transition-colors duration-300" />
+              <span className="ml-2 group-hover:text-white">Logout</span>
+            </div>
         </div>
       </header>
     </>

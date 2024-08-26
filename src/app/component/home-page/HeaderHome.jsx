@@ -10,7 +10,6 @@ import { useUser } from '@context/UserContext';
 const HeaderHome = ({ userName, profileImage }) => {
   const [scrolled, setScrolled] = useState(false);
   const { fullname } = useUser()
-  console.log(fullname)
 
   useEffect(() => {
     const handleScroll = () => {

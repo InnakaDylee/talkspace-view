@@ -2,7 +2,6 @@
 import React, { useState } from "react"
 import RoomCard from "./RoomCard"
 import { useRoom } from "../../../contexts/RoomContext"
-import { useSocket } from "../../../contexts/SocketContext"
 import { BiMessageAdd } from "react-icons/bi"
 import AddRoomPanel from "./AddRoomPanel"
 import Image from "next/image"
@@ -11,7 +10,6 @@ function RoomSideBar() {
   const [showAddRoomPanel, setShowAddRoomPanel] = useState(false)
   const [selectedRoomId, setSelectedRoomId] = useState(null)
   const { rooms, myRooms } = useRoom()
-  const { roomUsers } = useSocket()
 
   const hideAddRoomPanel = () => setShowAddRoomPanel(false)
   const handleRoomClick = (roomId) => {
@@ -25,7 +23,6 @@ function RoomSideBar() {
         Doctor Available
       </p>
       {rooms.map((room, index) => {
-        // console.log(room)
         return (
           <div key={room.id} className="flex group relative gap-3 items-center p-2 flex-col sm:flex-row bg-purple-500 rounded-xl mx-4 px-2 my-3 cursor-pointer"
             onClick={() => handleRoomClick(room.id)}
@@ -55,11 +52,10 @@ function RoomSideBar() {
       </p>
       <div className="py-1">
         {myRooms.map((room, index) => {
-          // console.log(room)
           return (
             <RoomCard
               room={room}
-              users={roomUsers[room.id] ?? []}
+              users={myRooms[room.id] ?? []}
               key={index}
             />
           )

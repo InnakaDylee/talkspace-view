@@ -80,9 +80,21 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
     try {
       const res = await register(payload)
       if(res.status){
+        toast.success(`${res.message}`, {
+          position: "top-center",
+          autoClose: 3500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          className:" capitalize",
+          theme: "colored",
+        });
+        // router.push("/home")
+        closeModal()
         setCookie("token", res.data.token)
-        router.push("/home")
-        console.log(res.message)
+        
       }
       else{
         toast.error(res.message, {
@@ -97,7 +109,6 @@ const RegisterModal = ({ modalIsOpen, closeModal }) => {
           className:" capitalize"
           // transition: Zoom,
           });
-        console.log(res.message)
       }
     } catch(error) {
       console.error('An error occurred:', error);

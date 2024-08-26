@@ -1,24 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-import { v4 as uuidv4 } from "uuid";
 import createRoom from "@/api/user/chat/createRoom";
 import { getCookie } from "cookies-next";
 import { useRoom } from "@context/RoomContext";
 
 function AddRoomPanel({ hideAddRoomPanel, id }) {
-  const [title, setTitle] = useState("");
-  // const [id, setId] = useState("");
-  const { myRooms, setMyRooms } = useRoom();
-  const { rooms, setRooms } = useRoom();
-  const router = useRouter();
+  const { rooms } = useRoom();
   const doctorName = rooms.find((room) => room.id === id).name
-
-  console.log(doctorName)
-  // useEffect(() => {
-  //   setId(uuidv4());
-  // }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +25,6 @@ function AddRoomPanel({ hideAddRoomPanel, id }) {
 
     }
     hideAddRoomPanel(true);
-    // router.replace("/chat-doctor/" + id);
   };
 
   return (

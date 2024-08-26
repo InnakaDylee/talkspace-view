@@ -14,12 +14,9 @@ function RoomCard({ room, users }) {
   const router = useRouter();
   const token = getCookie('token')
   const { setConn } = useContext(WebsocketContext)
-  // console.log(myRooms)
-  // console.log(room)
 
   const joinRoom = (roomId) => {
     const ws = new WebSocket(
-      // `${WEBSOCKET_URL}/ws/joinRoom/${roomId}?userId=${user.id}&username=${user.username}`
       `${process.env.NEXT_PUBLIC_WS}/consultations/joinRoom/${roomId}/${token}`
     )
     if (ws.OPEN) {

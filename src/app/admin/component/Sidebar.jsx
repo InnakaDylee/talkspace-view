@@ -32,7 +32,7 @@ const SidebarAdmin = ({ isOpen, onToggle }) => {
       <nav className="flex-grow p-4">
         <ul className="space-y-4">
           <li className="flex items-center cursor-pointer hover:bg-[#003366] p-2 rounded">
-            <Link href="/admin/home" className="flex items-center w-full">
+            <Link href="/admin" className="flex items-center w-full">
               <FaHome className="mr-3 text-lg" />
               Home
             </Link>

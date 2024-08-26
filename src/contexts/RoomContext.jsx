@@ -22,7 +22,6 @@ export default function RoomProvider({ children }) {
   const [rooms, setRooms] = useState([])
   const [myRooms, setMyRooms] = useState([])
   const pathname = usePathname();
-  console.log(pathname)
 
   useEffect(() => {
     // Fetch rooms and myRooms data when visiting /chat-doctor path
@@ -32,12 +31,11 @@ export default function RoomProvider({ children }) {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    updateMyRooms()
-  }, [myRooms])
+  // useEffect(() => {
+  //   updateMyRooms()
+  // }, [myRooms])
 
   async function fetchRoomsFromServer() {
-    console.log('cek')
     const res = await getAllDoctors(getCookie('token'))
     if(res.status) {
       if(res.data === undefined) return;
@@ -85,9 +83,9 @@ export default function RoomProvider({ children }) {
     // else setMyRooms([])
   }
 
-  function updateMyRooms() {
-    localStorage.setItem("myRooms", JSON.stringify(myRooms))
-  }
+  // function updateMyRooms() {
+  //   localStorage.setItem("myRooms", JSON.stringify(myRooms))
+  // }
 
   return (
     <RoomContext.Provider value={{ rooms, myRooms, setMyRooms }}>

@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Header from "../../../admin/component/Header";
-import SidebarAdmin from "../../../admin/component/Sidebar";
+import Header from "../component/Header";
+import SidebarAdmin from "../component/Sidebar";
 
 const ManageUsers = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
