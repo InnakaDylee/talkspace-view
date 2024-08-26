@@ -13,6 +13,12 @@ const HeaderDoctor = ({
 }) => {
   const [scrolled, setScrolled] = useState(false);
 
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const handleToggle = () => {
+    setIsEnabled(prev => !prev);
+  };
+
   useEffect(() => {
     const handleScroll = () => {
       const isScrolled = window.scrollY > 50;
@@ -40,11 +46,10 @@ const HeaderDoctor = ({
           `}</style>
       </Head>
       <header
-        className={`w-full z-50 transition-all duration-300 ease-in-out ${
-          scrolled
-            ? "bg-white shadow-md"
-            : "bg-gradient-to-r from-blue-600 to-blue-800"
-        }`}
+        className={`w-full z-50 transition-all duration-300 ease-in-out ${scrolled
+          ? "bg-white shadow-md"
+          : "bg-gradient-to-r from-blue-600 to-blue-800"
+          }`}
         style={{
           marginLeft: isSidebarOpen ? "256px" : "0",
           marginTop: "0",
@@ -55,18 +60,16 @@ const HeaderDoctor = ({
           {/* Button to toggle sidebar */}
           <button
             onClick={onSidebarToggle}
-            className={`p-2 rounded-full mr-4 transition-colors duration-300 ${
-              scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
-            }`}
+            className={`p-2 rounded-full mr-4 transition-colors duration-300 ${scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
+              }`}
           >
             <FaBars />
           </button>
 
           <div className="flex items-center flex-grow">
             <div
-              className={`text-2xl font-bold mr-10 ${
-                scrolled ? "text-blue-800" : "text-white"
-              }`}
+              className={`text-2xl font-bold mr-10 ${scrolled ? "text-blue-800" : "text-white"
+                }`}
               style={{ fontFamily: "Poppins, sans-serif" }}
             >
               Talkspace
@@ -74,20 +77,39 @@ const HeaderDoctor = ({
           </div>
 
           <div className="flex items-center space-x-2">
+            <div className="flex items-center">
+              <label  className="flex items-center cursor-pointer">
+                <div className="relative">
+                  <input
+                    type="checkbox"
+                    // id={id}
+                    checked={isEnabled}
+                    onChange={handleToggle}
+                    className="sr-only"
+                  />
+                  <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                  <div
+                    className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform ${isEnabled ? 'translate-x-full bg-blue-600' : 'translate-x-0'
+                      }`}
+                  ></div>
+                </div>
+                {/* {label &&  */}
+                <span className="ml-3 text-gray-700">Available</span>
+              </label>
+            </div>
             {/* Chat Icon */}
-            <button
-              className={`p-2 rounded-full transition-colors duration-300 ${
-                scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
-              }`}
-              onClick={() => alert("Open chat")}
+            <Link
+              className={`p-2 rounded-full transition-colors duration-300 ${scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
+                }`}
+              href={"/doctor/chat"}
               title="Open Chat"
             >
               <FaComments className="w-6 h-6" />
-            </button>
+            </Link>
 
             {/* Profile and Doctor Name */}
             <Link
-              href="/doctor-profile"
+              href="/doctor/profile"
               className="flex items-center space-x-2"
             >
               <div className="relative">
@@ -100,17 +122,15 @@ const HeaderDoctor = ({
                     />
                   ) : (
                     <FaUserMd
-                      className={`w-full h-full ${
-                        scrolled ? "text-blue-800" : "text-white"
-                      }`}
+                      className={`w-full h-full ${scrolled ? "text-blue-800" : "text-white"
+                        }`}
                     />
                   )}
                 </div>
               </div>
               <div
-                className={`font-bold ${
-                  scrolled ? "text-blue-800" : "text-white"
-                }`}
+                className={`font-bold ${scrolled ? "text-blue-800" : "text-white"
+                  }`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
                 Dr. {doctorName}

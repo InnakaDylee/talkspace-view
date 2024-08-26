@@ -1,5 +1,5 @@
 import Footer from '@/component/Footer';
-import HeaderHome from "@/component/home-page/HeaderHome";
+import HeaderHome from '@/component/home-page/HeaderHome';
 import Link from 'next/link';
 import React from 'react';
 import { FaStethoscope, FaRobot } from 'react-icons/fa';

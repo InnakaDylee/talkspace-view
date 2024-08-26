@@ -2,8 +2,8 @@
 "use client";
 
 import React, { useState } from "react";
-import Header from "../../admin/component/Header";
-import Sidebar from "../../admin/component/Sidebar";
+import Header from "./component/Header";
+import Sidebar from "./component/Sidebar";
 
 const AdminDashboardBody = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

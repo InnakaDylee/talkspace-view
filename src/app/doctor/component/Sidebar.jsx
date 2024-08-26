@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { FaHome, FaUserMd, FaCalendarAlt, FaFileAlt, FaClipboardList, FaSignOutAlt } from 'react-icons/fa';
 import Link from 'next/link';
+import { deleteCookie } from 'cookies-next';
 
 const Sidebar = ({ isOpen, onToggle }) => {
   const [scrolled, setScrolled] = useState(false);
@@ -21,10 +22,9 @@ const Sidebar = ({ isOpen, onToggle }) => {
 
   return (
     <aside
-      className={`bg-blue-800 text-white w-64 h-full flex flex-col fixed top-0 left-0 transform ${
-        isOpen ? 'translate-x-0' : '-translate-x-full'
-      } transition-transform duration-300 ease-in-out z-40`}
-      style={{ top: '0' }} 
+      className={`bg-blue-800 text-white w-64 h-full flex flex-col fixed top-0 left-0 transform ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        } transition-transform duration-300 ease-in-out z-40`}
+      style={{ top: '0' }}
     >
       <div className="p-4 text-center text-2xl font-bold border-b border-blue-700" style={{ fontFamily: 'Poppins, sans-serif' }}>
         Doctor Dashboard
@@ -64,10 +64,15 @@ const Sidebar = ({ isOpen, onToggle }) => {
         </ul>
       </nav>
       <div className="p-4 border-t border-blue-700">
-        <Link href="/logout" className="flex items-center w-full hover:bg-blue-700 p-2 rounded">
+        <div className="flex items-center w-full hover:bg-blue-700 p-2 rounded"
+          onClick={() => {
+            deleteCookie('token');
+            window.location.reload();  // Refresh halaman pada path yang sama
+          }}
+        >
           <FaSignOutAlt className="mr-3 text-lg" />
           Logout
-        </Link>
+        </div>
       </div>
     </aside>
   );

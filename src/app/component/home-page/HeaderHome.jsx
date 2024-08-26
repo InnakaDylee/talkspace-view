@@ -5,9 +5,12 @@ import Link from 'next/link';
 import Head from 'next/head';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { deleteCookie } from 'cookies-next';
+import { useUser } from '@context/UserContext';
 
 const HeaderHome = ({ userName, profileImage }) => {
   const [scrolled, setScrolled] = useState(false);
+  const { fullname } = useUser()
+  console.log(fullname)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,7 +45,7 @@ const HeaderHome = ({ userName, profileImage }) => {
               <Link href="/home" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Home
               </Link>
-              <Link href="/chat" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
+              <Link href="/talkbot" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Talk Bot
               </Link>
               <Link href="/chat-doctor" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
@@ -69,7 +72,7 @@ const HeaderHome = ({ userName, profileImage }) => {
                 </div>
               </div>
               <div className={`font-bold ${scrolled ? 'text-purple-700' : 'text-white'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Hi, User !
+                Hi, {fullname} !
               </div>
             </Link>
             <div

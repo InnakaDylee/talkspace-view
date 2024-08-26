@@ -20,14 +20,19 @@ export function middleware(request) {
 
     // Define permitted routes for each role
     const userRoutes = ['/home', '/profile', '/talkbot', '/chat-doctor'];
-    const doctorRoutes = ['/doctor', '/doctor/profile'];
-
+    const doctorRoutes = [
+      '/doctor', 
+      '/doctor/profile', 
+      '/doctor/chat', 
+      // Use regex to match dynamic routes
+      // '/^\/doctor\/chat\/[a-zA-Z0-9-]+$/ '
+    ];
     if (userRole === 'user' && !userRoutes.includes(pathname)) {
       // Redirect user roles from routes they are not permitted to access
       return NextResponse.redirect(new URL('/home', request.url));
     }
 
-    if (userRole === 'doctor' && !doctorRoutes.includes(pathname)) {
+    if (userRole === 'doctor' && !doctorRoutes.some(route => new RegExp(route).test(pathname))) {
       // Redirect doctor roles from routes they are not permitted to access
       return NextResponse.redirect(new URL('/doctor', request.url));
     }
@@ -44,5 +49,5 @@ export function middleware(request) {
 
 // Apply the middleware to the specified routes
 export const config = {
-  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor/login' ,'/doctor/:path*'],
+  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor/login', '/doctor/chat', '/doctor/:path*'],
 };

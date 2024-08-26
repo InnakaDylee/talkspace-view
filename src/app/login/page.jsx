@@ -7,6 +7,7 @@ import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useUser } from '@context/UserContext';
 
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const {setUserData} = useUser();
 
   const openModal = () => {
     setIsOpen(true);
@@ -35,6 +37,7 @@ const Login = () => {
       const res = await login(payload)
       if(res.status){
         setCookie("token", res.data.token)
+        setUserData(res.data)
         router.push("/home")
       }
       else{
