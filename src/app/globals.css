@@ -31,3 +31,25 @@ body {
     text-wrap: balance;
   }
 }
+
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2563eb #bfdbfe;
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #c084fc;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #581c87;
+  border-radius: 14px;
+  border: 2px solid #c084fc;
+}

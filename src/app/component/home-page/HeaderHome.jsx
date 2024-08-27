@@ -1,15 +1,26 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Link from 'next/link';
 import Head from 'next/head';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { deleteCookie } from 'cookies-next';
 import { useUser } from '@context/UserContext';
+import { useRouter } from 'next/navigation';
+import { WebsocketContext } from '@context/socketProvide';
 
 const HeaderHome = ({ userName, profileImage }) => {
   const [scrolled, setScrolled] = useState(false);
-  const { fullname } = useUser()
+  const { fullname } = useUser();
+  const router = useRouter();
+  const { conn, setConn } = useContext(WebsocketContext);
+
+  const handleCloseConnection = () => {
+    if (conn) {
+      conn.close(); // Menutup koneksi WebSocket
+      setConn(null); // Memastikan state koneksi direset
+    }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -34,13 +45,13 @@ const HeaderHome = ({ userName, profileImage }) => {
           }
         `}</style>
       </Head>
-      <header className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-white shadow-md' : 'bg-gradient-to-r from-purple-500 to-purple-700'}`}>
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="flex items-center">
+      <header className={`w-full z-50 transition-all duration-300 ease-in-out ${scrolled ? 'bg-white shadow-md' : 'bg-gradient-to-r from-purple-500 to-purple-700'}`}>
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center gap-2">
+          <div className="flex items-center flex-grow">
             <div className={`text-2xl font-bold mr-10 ${scrolled ? 'text-purple-700' : 'text-white'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
               Talkspace
             </div>
-            <nav className="flex space-x-6">
+            <nav className="flex gap-4 items-center">
               <Link href="/home" className={`transition duration-300 ease-in-out ${scrolled ? 'text-purple-700 hover:text-purple-500' : 'text-white hover:text-gray-300'}`} style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Home
               </Link>
@@ -55,7 +66,7 @@ const HeaderHome = ({ userName, profileImage }) => {
               </Link>
             </nav>
           </div>
-          <div className="flex items-center space-x-2 gap-2">
+          <div className="flex items-center gap-2">
             <Link href="/profile" className="flex items-center space-x-2">
               <div className="relative">
                 <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
@@ -77,8 +88,9 @@ const HeaderHome = ({ userName, profileImage }) => {
             <div
               className="group flex items-center justify-center bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded cursor-pointer transition-colors duration-300"
               onClick={() => {
+                handleCloseConnection();
+                router.push('/login');  // Refresh halaman pada path yang sama
                 deleteCookie('token');
-                window.location.reload();  // Refresh halaman pada path yang sama
               }}
             >
               <FaSignOutAlt size={25} className="text-slate-200 group-hover:text-white transition-colors duration-300" />

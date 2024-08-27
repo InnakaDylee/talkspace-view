@@ -1,7 +1,7 @@
 "use client"
 import { useRoom } from "@context/RoomContext";
 import { WebsocketContext } from "@context/socketProvide";
-import React, { useState, useContext } from "react"
+import React, { useContext } from "react"
 import { ImExit } from "react-icons/im";
 
 function ChatHeader({ roomId }) {

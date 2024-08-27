@@ -77,17 +77,17 @@ function ChatPage() {
   }, [conn, router]);
 
   return (
-    <div className="flex flex-col w-full h-full bg-purple-200">
+    <div className="flex flex-col w-full  bg-purple-200">
       <ChatHeader roomId={roomId} />
       {/* <ChatBody messages={messages} /> */}
 
       <div className="basis-[75vh] overflow-y-scroll p-5 w-full flex flex-col gap-2">
       {messages.map((message, index) => (
-        <div key={index} className={`flex bg-purple-800 ${message.role === "user" ? "self-end rounded-b-lg rounded-l-lg" : "self-start flex-col items-end rounded-b-lg rounded-r-lg"}`}>
+        <div key={index} className={`flex ${message.role === "user" ? "self-end rounded-b-lg rounded-l-lg bg-purple-600" : "self-start flex-col items-end rounded-b-lg rounded-r-lg bg-zinc-500"}`}>
           {message.text && (
             <div
               className={`flex justify-center items-center px-3 py-1 rounded-full ${
-                message.role === "doctor" ? "bg-primary text-slate-200" : ""
+                message.role === "doctor" ? "text-slate-50" : "text-slate-100"
               }`}
             >
               <p className="font-sans">{message.text}</p>

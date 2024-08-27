@@ -22,8 +22,9 @@ export default function RoomProvider({ children }) {
   const [rooms, setRooms] = useState([])
   const [myRooms, setMyRooms] = useState([])
   const pathname = usePathname();
-
+  const token = getCookie('token')
   useEffect(() => {
+    if(!token ) return;
     // Fetch rooms and myRooms data when visiting /chat-doctor path
     if (pathname === "/chat-doctor" || pathname === "/doctor/chat") {
       fetchRoomsFromServer();
@@ -36,7 +37,7 @@ export default function RoomProvider({ children }) {
   // }, [myRooms])
 
   async function fetchRoomsFromServer() {
-    const res = await getAllDoctors(getCookie('token'))
+    const res = await getAllDoctors(token)
     if(res.status) {
       if(res.data === undefined) return;
       const transformedRooms = Object.keys(res.data).map(key => {
@@ -58,8 +59,8 @@ export default function RoomProvider({ children }) {
   }
 
   async function fetchMyRooms() {
-    const roleDecoded = jwtDecode(getCookie('token')).role
-    const res = await getMyRooms(getCookie('token'))
+    const roleDecoded = jwtDecode(token).role
+    const res = await getMyRooms(token)
     if(res.status) {
       if(res.data === undefined) return;
       const transformedRooms = Object.keys(res.data).map(key => {

@@ -14,62 +14,10 @@ import { getCookie } from "cookies-next";
 // import ChatComponent from "@/component/chat/chat";
 
 const Talkbot = () => {
-  // const settings = {
-  //   dots: true,
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 3,
-  //   slidesToScroll: 1,
-  //   nextArrow: <SampleNextArrow />,
-  //   prevArrow: <SamplePrevArrow />,
-  //   responsive: [
-  //     {
-  //       breakpoint: 1024,
-  //       settings: {
-  //         slidesToShow: 2,
-  //         slidesToScroll: 1,
-  //         infinite: true,
-  //         dots: true,
-  //       },
-  //     },
-  //     {
-  //       breakpoint: 600,
-  //       settings: {
-  //         slidesToShow: 1,
-  //         slidesToScroll: 1,
-  //       },
-  //     },
-  //   ],
-  // };
-
-  // function SampleNextArrow(props) {
-  //   const { onClick } = props;
-  //   return (
-  //     <div
-  //       onClick={onClick}
-  //       className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-purple-500 hover:bg-purple-700 rounded-full p-2 cursor-pointer transition-all duration-300 mr-2"
-  //       style={{ right: "-25px" }}
-  //     >
-  //       <div className="text-white">→</div>
-  //     </div>
-  //   );
-  // }
-
-  // function SamplePrevArrow(props) {
-  //   const { onClick } = props;
-  //   return (
-  //     <div
-  //       onClick={onClick}
-  //       className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-purple-500 hover:bg-purple-700 rounded-full p-2 cursor-pointer transition-all duration-300 ml-2"
-  //       style={{ left: "-25px" }}
-  //     >
-  //       <div className="text-white">←</div>
-  //     </div>
-  //   );
-  // }
 
   const lastMessageRef = useRef(null);
   const [typing, setTyping] = useState("");
+  const [isInputDisabled, setIsInputDisabled] = useState(false);
 
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -79,6 +27,7 @@ const Talkbot = () => {
       const updatedMessages = [...messages, { text: input, user: 'User' }];
       setMessages(updatedMessages);
       setInput('');
+      setIsInputDisabled(true); // Disable input saat menunggu respons
       // Here, you can add the logic to send the message to your AI model or backend.
       try {
         const res = await talkbots({ message: input }, getCookie('token'))
@@ -86,7 +35,9 @@ const Talkbot = () => {
           setMessages([...updatedMessages, { text: res.data, user: 'Talkbot' }])
         }
       } catch (err) {
-
+        setInput(input); // Kembalikan input jika terjadi error
+      } finally {
+        setIsInputDisabled(false); // Aktifkan input setelah mendapatkan respons atau error
       }
     }
     return;
@@ -120,7 +71,7 @@ const Talkbot = () => {
   return (
     <div className="flex flex-col h-screen justify-end bg-slate-200">
       <Header />
-      <div className="flex flex-col justify-end h-[80vh] w-[60%] bg-purple-400 rounded-lg p-4 mt-[4%] mx-auto">
+      <div className="flex flex-col justify-end h-[82vh] w-[65vw] bg-purple-400 rounded-lg p-4 mx-auto">
         <div className="flex flex-col overflow-y-auto space-y-4 mb-4">
           {messages.map((message, index) => (
             <div
@@ -146,12 +97,14 @@ const Talkbot = () => {
           <div ref={lastMessageRef} />
         </div>
       </div>
-      <div className=" self-center p-4 bg-white flex items-end w-[60%] rounded-lg">
+      <div className=" self-center p-4 bg-white flex items-end w-[65vw] rounded-lg">
         <input
           type="text"
           className="flex-1 border border-purple-300 rounded-lg p-2 mr-4 text-slate-800 focus:border-purple-700 focus:border-2 outline-none"
           placeholder="Type your message..."
           value={input}
+          autoFocus
+          disabled={isInputDisabled} // Disable button jika sedang menunggu respons
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') sendMessage();
@@ -160,6 +113,7 @@ const Talkbot = () => {
         <button
           className=" bg-purple-700 text-white p-2 rounded-lg"
           onClick={sendMessage}
+          disabled={isInputDisabled} // Disable button jika sedang menunggu respons
         >
           Send
         </button>

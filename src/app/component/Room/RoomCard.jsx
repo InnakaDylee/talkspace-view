@@ -25,7 +25,7 @@ function RoomCard({ room, users }) {
       return
     }
   }
-
+  console.log(room.profilePicture)
   return (
     <div
       // href={`/chat-doctor/${room.id}`}
@@ -36,7 +36,8 @@ function RoomCard({ room, users }) {
     >
       <div>
         {/* {room.id === "1" ? ( */}
-        <Image
+        { room.profilePicture && 
+          <Image
           src={room.profilePicture}
           height={50}
           width={50}
@@ -47,7 +48,7 @@ function RoomCard({ room, users }) {
             borderRadius: 50,
           }}
           alt="profile"
-        />
+        />}
         {/* ) : (
           <ImExit
             name={room.title}

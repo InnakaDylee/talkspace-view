@@ -12,7 +12,7 @@ export default function RoomLayout({ children }) {
     <RoomProvider>
       <WebSocketProvider>
         <HeaderHome />
-        <div className="flex h-[90vh] mt-[4%] bg-slate-200">
+        <div className="flex h-[90vh] bg-slate-200">
           <RoomSideBar />
           {children}
           <ToastContainer
