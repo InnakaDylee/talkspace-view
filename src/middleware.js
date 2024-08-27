@@ -60,5 +60,5 @@ export function middleware(request) {
 
 // Apply the middleware to the specified routes
 export const config = {
-  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor/login', '/doctor/chat', '/doctor/profile', '/admin/:path*'],
+  matcher: ['/home', '/profile', '/talkbot', '/chat-doctor', '/doctor', '/doctor/chat', '/doctor/profile', '/admin/:path*'],
 };
