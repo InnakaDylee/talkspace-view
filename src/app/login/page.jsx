@@ -38,6 +38,18 @@ const Login = () => {
       if(res.status){
         setCookie("token", res.data.token)
         setUserData(res.data)
+        toast.success(res.message, {
+          position: "top-center",
+          autoClose: 4500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          className:" capitalize"
+          // transition: Zoom,
+          });
         router.push("/home")
       }
       else{

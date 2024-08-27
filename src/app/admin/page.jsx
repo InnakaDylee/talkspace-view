@@ -29,6 +29,7 @@ const AdminDashboardBody = () => {
   });
 
   const [profilePicture, setProfilePicture] = useState(null);
+  const [profilePictureURL, setProfilePictureURL] = useState(null);
   const [doctors, setDoctors] = useState([]);
   const [password, setPassword] = useState("");
 
@@ -43,7 +44,9 @@ const AdminDashboardBody = () => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setProfilePicture(URL.createObjectURL(file));
+      setProfilePictureURL(URL.createObjectURL(file));
+      setProfilePicture(file);
+
     }
   };
 
@@ -75,11 +78,12 @@ const AdminDashboardBody = () => {
       location: "",
       gender: "",
     });
-    setProfilePicture(null);
+    setProfilePictureURL(null);
     setPassword("");
   };
 
   const createDoctor = async () => {
+
     const formData = new FormData();
     formData.append('fullname', doctorData.fullname);
     formData.append('email', doctorData.email);
@@ -176,10 +180,10 @@ const AdminDashboardBody = () => {
                   onChange={handleFileChange}
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                 />
-                {profilePicture && (
+                {profilePictureURL && (
                   <div className="mt-4">
                     <img
-                      src={profilePicture}
+                      src={profilePictureURL}
                       alt="Profile Preview"
                       className="w-32 h-32 object-cover rounded-md border border-gray-300"
                     />
