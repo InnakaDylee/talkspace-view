@@ -17,19 +17,6 @@ function RoomCard({ room, users }) {
   const { conn, setConn, } = useContext(WebsocketContext)
 
   const joinRoom = (roomId) => {
-    // if (conn && conn.readyState === WebSocket.OPEN) {
-    //   console.log('Connection is already open.');
-    //   conn.close();
-    //   // setConn(null)
-    //   return;
-    // }
-  
-    // if (conn && conn.readyState === WebSocket.CONNECTING) {
-    //   console.log('Connection is still in the process of connecting.');
-    //   conn.close()
-    //   // setConn(null)
-    //   return;
-    // }
     if(conn){
       conn.close()
     }

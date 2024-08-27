@@ -11,9 +11,11 @@ import {
   FaFileAlt,
   FaRegCalendarCheck,
 } from "react-icons/fa";
+import { useUser } from "@context/UserContext";
 
 const DoctorHomeBody = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const { fullname } = useUser()
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -37,7 +39,7 @@ const DoctorHomeBody = () => {
         <main className="flex-grow bg-gray-100 p-8">
           <section className="mb-10">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">
-              Welcome Back, Dr. Frahari!
+              Welcome Back, {fullname}
             </h1>
             <p className="text-lg text-gray-600">
               Here's a quick overview of your activities today.
@@ -117,7 +119,7 @@ const DoctorHomeBody = () => {
           </section>
 
           {/* Notifications Section */}
-          <section className="bg-white p-8 rounded-lg shadow-lg">
+          {/* <section className="bg-white p-8 rounded-lg shadow-lg">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">
               Notifications
             </h2>
@@ -159,7 +161,7 @@ const DoctorHomeBody = () => {
                 </p>
               </li>
             </ul>
-          </section>
+          </section> */}
         </main>
         <Footer />
       </div>

@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Head from "next/head";
-import { FaUserMd, FaBars, FaComments } from "react-icons/fa";
-import updateStatus from "@/api/doctor/auth/updateStatus";
+import { FaUserMd, FaBars, FaComments, FaSignOutAlt } from "react-icons/fa";
+import updateStatus from "@/api/doctor/updateStatus";
 import { useUser } from "@context/UserContext";
-import { getCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
+import { usePathname } from "next/navigation";
 
 const HeaderDoctor = ({
   doctorName,
@@ -15,8 +16,9 @@ const HeaderDoctor = ({
   onSidebarToggle,
 }) => {
   const [scrolled, setScrolled] = useState(false);
-  const [isEnabled, setIsEnabled] = useState(false);
-  const { id } = useUser();
+  const { id, fullname, premium } = useUser();
+  const [isEnabled, setIsEnabled] = useState(premium);
+  const pathname = usePathname();
 
   const handleToggle = () => {
     setIsEnabled(prev => !prev);
@@ -70,13 +72,14 @@ const HeaderDoctor = ({
       >
         <div className="container mx-auto px-4 py-4 flex items-center">
           {/* Button to toggle sidebar */}
-          <button
+          { pathname !== '/doctor/chat' &&
+            <button
             onClick={onSidebarToggle}
             className={`p-2 rounded-full mr-4 transition-colors duration-300 ${scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
               }`}
           >
             <FaBars />
-          </button>
+          </button>}
 
           <div className="flex items-center flex-grow">
             <Link
@@ -86,6 +89,16 @@ const HeaderDoctor = ({
               href={'/doctor'}
             >
               Talkspace
+            </Link>
+
+            {/* Chat Icon */}
+            <Link
+              className={`p-2 rounded-full transition-colors duration-300 ${scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
+                }`}
+              href={"/doctor/chat"}
+              title="Open Chat"
+            >
+              <FaComments className="w-6 h-6" />
             </Link>
           </div>
 
@@ -100,25 +113,17 @@ const HeaderDoctor = ({
                     onChange={handleToggle}
                     className="sr-only"
                   />
-                  <div className="block bg-gray-600 w-14 h-8 rounded-full"></div>
+                  <div className={`block w-14 h-8 rounded-full ${isEnabled ? 'bg-green-200' : 'bg-red-200'}`}></div>
                   <div
-                    className={`absolute left-1 top-1 w-6 h-6 bg-white rounded-full transition-transform ${isEnabled ? 'translate-x-full bg-green-600' : 'translate-x-0 bg-red-600'
+                    className={`absolute left-1 top-1 w-6 h-6 rounded-full transition-transform ${isEnabled ? 'translate-x-full bg-green-600' : 'translate-x-0 bg-red-700'
                       }`}
                   ></div>
                 </div>
                 {/* {label &&  */}
-                <span className="ml-3 text-slate-300">{isEnabled ? "Available" : "Not Available"}</span>
+                <span className="ml-3 text-slate-50">{isEnabled ? "Available" : "Not Available"}</span>
               </label>
             </div>
-            {/* Chat Icon */}
-            <Link
-              className={`p-2 rounded-full transition-colors duration-300 ${scrolled ? "bg-blue-800 text-white" : "bg-white text-blue-800"
-                }`}
-              href={"/doctor/chat"}
-              title="Open Chat"
-            >
-              <FaComments className="w-6 h-6" />
-            </Link>
+            
 
             {/* Profile and Doctor Name */}
             <Link
@@ -146,9 +151,19 @@ const HeaderDoctor = ({
                   }`}
                 style={{ fontFamily: "Poppins, sans-serif" }}
               >
-                Dr. {doctorName}
+                {fullname}
               </div>
             </Link>
+
+            <div
+              className="group flex items-center justify-center bg-blue-200 hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-xl cursor-pointer transition-colors duration-300"
+              onClick={() => {
+                deleteCookie('token');
+                window.location.reload();  // Refresh halaman pada path yang sama
+              }}
+            >
+              <FaSignOutAlt size={25} className="text-slate-600 group-hover:text-white transition-colors duration-300" />
+            </div>
           </div>
         </div>
       </header>

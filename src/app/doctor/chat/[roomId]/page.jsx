@@ -81,11 +81,11 @@ function ChatPage() {
 
       <div className="basis-[75vh] overflow-y-scroll p-5 w-full flex flex-col gap-2">
       {messages.map((message, index) => (
-        <div key={index} className={`flex bg-blue-800 ${message.role === "doctor" ? "self-end rounded-b-lg rounded-l-lg" : "self-start flex-col items-end rounded-b-lg rounded-r-lg"}`}>
+        <div key={index} className={`flex  ${message.role === "doctor" ? " bg-sky-700 self-end rounded-b-lg rounded-l-lg" : " bg-blue-400 self-start flex-col items-end rounded-b-lg rounded-r-lg"}`}>
           {message.text && (
             <div
               className={`flex justify-center items-center px-3 py-1 rounded-full ${
-                message.role === "user" ? "bg-primary text-slate-200" : ""
+                message.role === "user" ? "bg-primary text-slate-900" : "text-teal-50"
               }`}
             >
               <p className="font-sans">{message.text}</p>
